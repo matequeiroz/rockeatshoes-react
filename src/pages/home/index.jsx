@@ -3,10 +3,11 @@ import { MdShoppingCart } from 'react-icons/md';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as homeActions from '../../store/actions/home';
-import { ProductList } from '../../styles/Home/style';
+import * as cartActions from '../../store/actions/cart';
 import api from '../../services/api';
 import { format } from '../../util/formartCurrency';
+
+import { ProductList } from '../../styles/Home/style';
 
 class Home extends React.Component {
   state = {
@@ -23,16 +24,15 @@ class Home extends React.Component {
     this.setState({ shoes });
   }
 
-  handleShoeToCart = product => {
-    const { addToCart } = this.props;
+  handleShoeToCart = id => {
+    const { addToCartRequest } = this.props;
 
-    addToCart(product);
+    addToCartRequest(id);
   };
 
   render() {
     const { shoes } = this.state;
     const { amount } = this.props;
-    console.log(amount);
     return (
       <ProductList>
         {shoes.map(shoe => (
@@ -40,9 +40,9 @@ class Home extends React.Component {
             <img src={shoe.image} />
             <strong>{shoe.title}</strong>
             <span>{shoe.priceFormatted}</span>
-            <button onClick={() => this.handleShoeToCart(shoe)}>
+            <button onClick={() => this.handleShoeToCart(shoe.id)}>
               <div>
-                <MdShoppingCart size={16} color="#fff" /> {amount[shoe.id]}
+                <MdShoppingCart size={16} color="#fff" /> {amount[shoe.id] || 0}
               </div>
               <span>Adicionar ao carrinho</span>
             </button>
@@ -62,6 +62,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(homeActions, dispatch);
+  bindActionCreators(cartActions, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
