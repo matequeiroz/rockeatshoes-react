@@ -24,6 +24,27 @@ export default function cart(state = INITIAL_STATE, action) {
 
         if (productIndex >= 0) draftState.splice(productIndex, 1);
       });
+    case '@cart/DECREMENT_AMOUNT':
+      return produce(state, draftState => {
+        const productIndex = draftState.findIndex(
+          item => item.id === action.payload
+        );
+
+        if (productIndex >= 0) {
+          if (draftState[productIndex].amount > 1)
+            draftState[productIndex].amount -= 1;
+        }
+      });
+    case '@cart/INCREMENT_AMOUNT':
+      return produce(state, draftState => {
+        const productIndex = draftState.findIndex(
+          item => item.id === action.payload
+        );
+
+        if (productIndex >= 0) {
+          draftState[productIndex].amount += 1;
+        }
+      });
 
     default:
       return state;
