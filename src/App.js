@@ -2,8 +2,11 @@ import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import Routes from './routes';
-import GlobalStyles from './styles/global';
+
+import './config/reactotron';
+
 import store from './store';
+import GlobalStyles from './styles/global';
 import Header from './components/Header/index';
 
 function App() {
