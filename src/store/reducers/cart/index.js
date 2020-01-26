@@ -4,7 +4,7 @@ const INITIAL_STATE = [];
 export default function cart(state = INITIAL_STATE, action) {
   switch (action.type) {
     case '@cart/ADD':
-      const nextState = produce(state, draftState => {
+      return produce(state, draftState => {
         const productIndex = draftState.findIndex(
           item => item.id === action.payload.id
         );
@@ -16,7 +16,15 @@ export default function cart(state = INITIAL_STATE, action) {
         }
       });
 
-      return nextState;
+    case '@cart/REMOVE':
+      return produce(state, draftState => {
+        const productIndex = draftState.findIndex(
+          item => item.id === action.payload
+        );
+
+        if (productIndex >= 0) draftState.splice(productIndex, 1);
+      });
+
     default:
       return state;
   }
