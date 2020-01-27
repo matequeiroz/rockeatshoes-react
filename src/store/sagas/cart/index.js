@@ -2,7 +2,7 @@ import { call, put, select, all, takeLatest } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
-import { addToCartSuccess, increment } from '../../actions/cart';
+import { addToCartSuccess, incrementSuccess } from '../../actions/cart';
 import { format } from '../../../util/formartCurrency';
 
 function* addToCart(action) {
@@ -18,7 +18,7 @@ function* addToCart(action) {
       return toast.error(
         'Não temos essa quantidade deste produto em estoque :('
       );
-    yield put(increment(action.payload));
+    yield put(incrementSuccess(action.payload));
   } else {
     const response = yield call(api.get, `products/${action.payload}`);
 
@@ -31,4 +31,19 @@ function* addToCart(action) {
   }
 }
 
-export default all([takeLatest('@cart/ADD_REQUEST', addToCart)]);
+function* incrementAmount(action) {
+  const { data } = yield call(api.get, `/stock/${action.payload}`);
+  const stockAmount = data.amount;
+  const product = yield select(state =>
+    state.cart.find(product => product.id === action.payload)
+  );
+
+  product.amount + 1 > stockAmount
+    ? toast.error('Não temos essa quantidade deste produto em estoque :(')
+    : yield put(incrementSuccess(action.payload));
+}
+
+export default all([
+  takeLatest('@cart/ADD_REQUEST', addToCart),
+  takeLatest('@cart/INCREMENT_AMOUNT_REQUEST', incrementAmount),
+]);

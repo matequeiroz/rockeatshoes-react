@@ -19,6 +19,20 @@ export function increment(id) {
   };
 }
 
+export function incrementRequest(id) {
+  return {
+    type: '@cart/INCREMENT_AMOUNT_REQUEST',
+    payload: id,
+  };
+}
+
+export function incrementSuccess(id) {
+  return {
+    type: '@cart/INCREMENT_AMOUNT_SUCCESS',
+    payload: id,
+  };
+}
+
 export function addToCartRequest(id) {
   return {
     type: '@cart/ADD_REQUEST',
