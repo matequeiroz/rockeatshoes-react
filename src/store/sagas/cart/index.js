@@ -1,4 +1,5 @@
 import { call, put, select, all, takeLatest } from 'redux-saga/effects';
+import { toast } from 'react-toastify';
 
 import api from '../../../services/api';
 import { addToCartSuccess, increment } from '../../actions/cart';
@@ -14,7 +15,9 @@ function* addToCart(action) {
 
   if (isExistProduct) {
     if (isExistProduct.amount + 1 > stockAmount)
-      return console.tron.error('erro');
+      return toast.error(
+        'Não temos essa quantidade deste produto em estoque :('
+      );
     yield put(increment(action.payload));
   } else {
     const response = yield call(api.get, `products/${action.payload}`);
