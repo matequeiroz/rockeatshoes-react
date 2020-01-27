@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import Routes from './routes';
@@ -10,11 +10,13 @@ import store from './store';
 import GlobalStyles from './styles/global';
 import Header from './components/Header/index';
 
+import history from './config/history';
+
 function App() {
   return (
     <div className="App">
       <Provider store={store}>
-        <Router>
+        <Router history={history}>
           <Header />
           <Routes />
           <GlobalStyles />

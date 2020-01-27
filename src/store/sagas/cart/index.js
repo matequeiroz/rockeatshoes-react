@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import api from '../../../services/api';
 import { addToCartSuccess, incrementSuccess } from '../../actions/cart';
 import { format } from '../../../util/formartCurrency';
+import history from '../../../config/history';
 
 function* addToCart(action) {
   const isExistProduct = yield select(state =>
@@ -19,6 +20,7 @@ function* addToCart(action) {
         'Não temos essa quantidade deste produto em estoque :('
       );
     yield put(incrementSuccess(action.payload));
+    history.push('/cart');
   } else {
     const response = yield call(api.get, `products/${action.payload}`);
 
@@ -28,6 +30,7 @@ function* addToCart(action) {
       priceFormatted: format(response.data.price),
     };
     yield put(addToCartSuccess(data));
+    history.push('/cart');
   }
 }
 
