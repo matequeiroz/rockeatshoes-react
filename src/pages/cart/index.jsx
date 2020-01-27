@@ -12,13 +12,13 @@ import { format } from '../../util/formartCurrency';
 
 import { Container, ProductTable, Total } from '../../styles/Cart/style';
 
-function Cart({ cart, removeProduct, decrement, increment, total }) {
+function Cart({ cart, removeProduct, decrement, incrementRequest, total }) {
   function decrementAmount(id) {
     decrement(id);
   }
 
   function incrementAmount(id) {
-    increment(id);
+    incrementRequest(id);
   }
 
   return (

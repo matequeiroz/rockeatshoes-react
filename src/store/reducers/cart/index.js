@@ -37,7 +37,7 @@ export default function cart(state = INITIAL_STATE, action) {
             draftState[productIndex].amount -= 1;
         }
       });
-    case '@cart/INCREMENT_AMOUNT':
+    case '@cart/INCREMENT_AMOUNT_SUCCESS':
       return produce(state, draftState => {
         const productIndex = draftState.findIndex(
           item => item.id === action.payload
